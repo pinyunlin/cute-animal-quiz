@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>心裡住著哪種小動物？</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff9f9;
+      padding: 2em;
+      text-align: center;
+    }
+    .question {
+      display: none;
+    }
+    .question.active {
+      display: block;
+    }
+    button {
+      margin: 1em;
+      padding: 1em 2em;
+      background-color: #ffcccc;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+    #result {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>心裡住著哪種小動物？</h1>
+  <p>點幾題就知道你的內心小夥伴是誰～</p>
+  <div id="quiz">
+    <div class="question active" data-question="1">
+      <p>1. 假日你最想做什麼？</p>
+      <button onclick="answer('cat')">A. 窩在家裡追劇</button>
+      <button onclick="answer('dog')">B. 約朋友出去吃飯</button>
+      <button onclick="answer('fox')">C. 一個人去散步或看展</button>
+      <button onclick="answer('hedgehog')">D. 把房間整理得乾乾淨淨</button>
+    </div>
+    <div class="question" data-question="2">
+      <p>2. 你對人際關係的看法是？</p>
+      <button onclick="answer('hedgehog')">A. 保持距離比較舒服</button>
+      <button onclick="answer('dog')">B. 有朋友在身邊才有安全感</button>
+      <button onclick="answer('fox')">C. 喜歡交朋友但不主動</button>
+      <button onclick="answer('cat')">D. 自己一個人最好</button>
+    </div>
+    <div class="question" data-question="3">
+      <p>3. 你最常被形容成？</p>
+      <button onclick="answer('fox')">A. 聰明有點神祕</button>
+      <button onclick="answer('dog')">B. 熱情活潑</button>
+      <button onclick="answer('hedgehog')">C. 安靜細膩</button>
+      <button onclick="answer('cat')">D. 高冷但可愛</button>
+    </div>
+    <div class="question" data-question="4">
+      <p>4. 面對壓力時你會？</p>
+      <button onclick="answer('cat')">A. 自己待著慢慢消化</button>
+      <button onclick="answer('dog')">B. 找朋友傾訴</button>
+      <button onclick="answer('fox')">C. 轉移注意力做別的事</button>
+      <button onclick="answer('hedgehog')">D. 規劃處理步驟慢慢解決</button>
+    </div>
+    <div class="question" data-question="5">
+      <p>5. 你最喜歡哪種場景？</p>
+      <button onclick="answer('fox')">A. 微風中獨自走在林間小路</button>
+      <button onclick="answer('dog')">B. 與朋友大笑在咖啡廳</button>
+      <button onclick="answer('cat')">C. 躺在床上看劇</button>
+      <button onclick="answer('hedgehog')">D. 在整齊的書桌前寫日記</button>
+    </div>
+  </div>
+  <div id="result">
+    <h2 id="animalTitle"></h2>
+    <p id="animalDesc"></p>
+  </div>
+
+  <script>
+    let scores = { cat: 0, dog: 0, fox: 0, hedgehog: 0 };
+    let current = 1;
+
+    function answer(animal) {
+      scores[animal]++;
+      document.querySelector(`.question[data-question="${current}"]`).classList.remove('active');
+      current++;
+      const next = document.querySelector(`.question[data-question="${current}"]`);
+      if (next) {
+        next.classList.add('active');
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('quiz').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+      const topAnimal = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+
+      const animals = {
+        cat: {
+          title: '你是：療癒系貓咪！',
+          desc: '你喜歡安靜與自在，對生活有自己的步調，也很懂得享受孤獨。別人眼中你可能有點冷淡，但親近你的人都知道你非常溫暖。'
+        },
+        dog: {
+          title: '你是：陽光系柴犬！',
+          desc: '你總是熱情又有活力，喜歡交朋友、討人喜歡，是大家的開心果，跟你在一起總是很放鬆。'
+        },
+        fox: {
+          title: '你是：神秘系狐狸！',
+          desc: '你聰明有想法、擅長觀察周遭，做事有自己的邏輯與風格，不輕易暴露內心，但一旦信任就很真誠。'
+        },
+        hedgehog: {
+          title: '你是：安靜系刺蝟！',
+          desc: '你敏感細膩、喜歡有規律的生活。剛認識時可能有點距離感，但熟了之後會發現你非常可靠與貼心。'
+        }
+      };
+
+      document.getElementById('animalTitle').innerText = animals[topAnimal].title;
+      document.getElementById('animalDesc').innerText = animals[topAnimal].desc;
+    }
+  </script>
+</body>
+</html>
